@@ -1,0 +1,26 @@
+{
+  "name": "nrockets",
+  "version": "0.0.1",
+  "description": "script concatenator",
+  "main": "nrockets.coffee",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/printercu/nrockets.git"
+  },
+  "keywords": [
+    "script",
+    "concat",
+    "concatenation"
+  ],
+  "author": "Max Melentiev <melentievm@gmail.com>",
+  "license": "BSD",
+  "dependencies": {
+    "underscore": "*",
+    "coffee-script": "*",
+    "flow-coffee": "git://github.com/printercu/flow-coffee.git",
+    "uglify-js": "~ 1.x"
+  }
+}
