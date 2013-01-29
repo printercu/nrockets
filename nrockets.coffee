@@ -1,9 +1,7 @@
 fs      = require 'fs'
 path    = require 'path'
-uglify  = require 'uglify-js'
 _       = require 'underscore'
 flow    = require 'flow-coffee'
-CoffeeScript = require 'coffee-script'
 
 HEADER = ///
 (?:
@@ -108,9 +106,11 @@ nrockets.compilers =
   coffee:
     compile: (file, callback) ->
       fs.readFile file, (err, data) ->
+        CoffeeScript = require 'coffee-script'
         callback err, if err then data else CoffeeScript.compile data.toString('utf8'), {filename: file}
 
 minify = (js) ->
+  uglify = require 'uglify-js'
   jsp = uglify.parser
   pro = uglify.uglify
   ast = jsp.parse js
