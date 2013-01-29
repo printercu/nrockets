@@ -24,7 +24,6 @@ flow.returnIfAnyError = (results, callback) ->
 module.exports = nrockets = {}
 
 nrockets.scan = (item, options, callback) ->
-  console.log 'stat %s', item
   fs.stat item, (err, stat) ->
     return callback err if err
     unless stat.isDirectory()
@@ -55,13 +54,11 @@ nrockets.scanFile = (file, options, callback) ->
           return unless item[0] in ['require', 'require_tree']
           dir = options.sources || path.dirname(file)
           item_rel = path.resolve dir, item[1]
-          console.log item_rel
           opts = _.clone options
           delete opts.sources
           nrockets.scan item_rel, opts, @MULTI()
         @MULTI() null, []
       (results) ->
-        console.log results
         return if flow.returnIfAnyError results, callback
         deps = []
         results.forEach (result) ->
