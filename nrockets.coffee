@@ -40,6 +40,7 @@ nrockets.scan = (item, options, callback) ->
           deps = []
           results.forEach (result) ->
             deps.push item for item in result[1]
+            true
           callback null, deps
       )
 
