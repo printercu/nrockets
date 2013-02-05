@@ -77,7 +77,7 @@ nrockets.concatDeps = (deps, options, callback) ->
     (results) ->
       return if flow.returnIfAnyError results, callback
       js  = ''
-      js += "\n" + item[1] for item in results
+      js += item[1] + ";\n" for item in results
       js = minify js if options.minify
       callback null, js
   )
