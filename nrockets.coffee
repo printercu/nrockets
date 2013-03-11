@@ -27,7 +27,7 @@ nrockets.scan = (item, options, callback) ->
   fs.stat item, (err, stat) ->
     return callback err if err
     unless stat.isDirectory()
-      return nrockets.scanFile item, options, callback
+      return nrockets.chooseAndScanFile item, options, callback
     fs.readdir item, (err, files) ->
       return callback err if err
       flow.exec(
@@ -43,6 +43,14 @@ nrockets.scan = (item, options, callback) ->
             true
           callback null, deps
       )
+
+nrockets.chooseAndScanFile = (file, options, callback) ->
+  return nrockets.scanFile file, options, callback unless options.tryMinified
+  ext = path.extname file
+  file_min = path.join path.dirname(file), path.basename(file, ext) + '.min' + ext
+  fs.stat file_min, (err, stat) ->
+    return nrockets.scanFile file, options, callback if err
+    nrockets.scanFile file_min, options, callback
 
 nrockets.scanFile = (file, options, callback) ->
   fs.readFile file, (err, data) ->
