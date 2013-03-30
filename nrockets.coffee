@@ -18,7 +18,7 @@ DIRECTIVE = ///
 flow.returnIfAnyError = (results, callback) ->
   err = @anyError results
   return false unless err
-  callback && callback err
+  callback? err
   true
 
 module.exports = nrockets = {}
