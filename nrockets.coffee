@@ -38,9 +38,8 @@ nrockets.scan = (item, options, callback) ->
         (results) ->
           return if flow.returnIfAnyError results, callback
           deps = []
-          results.forEach (result) ->
-            deps.push item for item in result[1]
-            true
+          for result in results
+            deps.push item for item in result[1] when item not in deps
           callback null, deps
       )
 
@@ -70,9 +69,8 @@ nrockets.scanFile = (file, options, callback) ->
       (results) ->
         return if flow.returnIfAnyError results, callback
         deps = []
-        results.forEach (result) ->
-          deps.push item for item in result[1]
-          true
+        for result in results
+          deps.push item for item in result[1] when item not in deps
         deps.push path.resolve(file)
         callback null, deps
     )
