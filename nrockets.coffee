@@ -15,12 +15,6 @@ DIRECTIVE = ///
 ^[\W] *= \s* (\S+?) \s* (\S*?) \s* $
 ///gm
 
-flow.returnIfAnyError = (results, callback) ->
-  err = @anyError results
-  return false unless err
-  callback? err
-  true
-
 module.exports = nrockets = {}
 
 nrockets.scan = (item, options, callback) ->
@@ -35,8 +29,8 @@ nrockets.scan = (item, options, callback) ->
           files.forEach (subitem) =>
             subitem_rel = path.join item, subitem
             nrockets.scan subitem_rel, options, @MULTI()
-        (results) ->
-          return if flow.returnIfAnyError results, callback
+        (err, results) ->
+          return callback err if err
           deps = []
           for result in results
             deps.push item for item in result[1] when item not in deps
@@ -66,8 +60,8 @@ nrockets.scanFile = (file, options, callback) ->
           delete opts.sources
           nrockets.scan item_rel, opts, @MULTI()
         @MULTI() null, []
-      (results) ->
-        return if flow.returnIfAnyError results, callback
+      (err, results) ->
+        return callback err if err
         deps = []
         for result in results
           deps.push item for item in result[1] when item not in deps
@@ -78,10 +72,10 @@ nrockets.scanFile = (file, options, callback) ->
 nrockets.concatDeps = (deps, options, callback) ->
   flow.exec(
     ->
-      deps.forEach (file, i) =>
-        nrockets.getFileContent file, @MULTI()
-    (results) ->
-      return if flow.returnIfAnyError results, callback
+      nrockets.getFileContent file, @MULTI() for file in deps
+      true
+    (err, results) ->
+      return callback err if err
       js  = ''
       js += item[1] + ";\n" for item in results
       js = minify js if options.minify

@@ -13,14 +13,16 @@
   "keywords": [
     "script",
     "concat",
-    "concatenation"
+    "concatenation",
+    "coffee",
+    "compile"
   ],
   "author": "Max Melentiev <melentievm@gmail.com>",
   "license": "BSD",
   "dependencies": {
     "underscore": "*",
     "coffee-script": "*",
-    "flow-coffee": "git://github.com/printercu/flow-coffee.git",
+    "flow-coffee": "~ 0.2.0",
     "uglify-js": "~ 1.x"
   }
 }

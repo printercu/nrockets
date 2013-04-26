@@ -29,6 +29,6 @@ module.exports = (params, callback) ->
           target = "#{params.targets}/#{basename}.js"
           fs.writeFile target, js, cb_file
       @MULTI() null
-    (results) ->
-      callback? flow.anyError results
+    (err, results) ->
+      callback? err
   )
